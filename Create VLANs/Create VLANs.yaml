@@ -1,0 +1,194 @@
+-
+    service: arista.studio.v1.StudioConfigService
+    method: Set
+    body:
+        value:
+            key:
+                studio_id: 8112d163-57a9-417e-9f91-baedd0a7de18
+                workspace_id: ""
+            display_name: 'Create VLANs'
+            description: 'Create VLANs on several devices'
+            template:
+                type: TEMPLATE_TYPE_MAKO
+                body: "%  if deviceResolver is not None:\n%    for devicecfg in deviceResolver.resolve()[\"devices\"]:\nvlan ${devicecfg['vlanIdDevice']}\n\n%  for vlancfg in vlaNs:\n%    if vlancfg.get('vlanDescription'):\n%      if vlancfg.get('vlanId')==devicecfg.get('vlanIdDevice'):\n         name ${vlancfg['vlanDescription']}\n%      endif\n%    endif\n%  endfor\n\n%      if devicecfg.get('vrfNameDevice'):\n vrf instance ${devicecfg['vrfNameDevice']}\n%      endif\n%      if devicecfg.get('ipAddress'):\n interface vlan ${devicecfg['vlanIdDevice']}\n ip address ${devicecfg['ipAddress']}\n%      endif\n%      if devicecfg.get('vrfNameDevice'):\n vrf ${devicecfg['vrfNameDevice']}\n ip address ${devicecfg['ipAddress']}\n ip routing vrf ${devicecfg['vrfNameDevice']}\n%      endif\n%    endfor\n%  endif\n\n"
+            input_schema:
+                fields:
+                    values:
+                        4648d3d8-eba0-4179-a903-2e1510dce3f2:
+                            id: 4648d3d8-eba0-4179-a903-2e1510dce3f2
+                            name: vlanId
+                            label: 'VLAN ID'
+                            description: 'Enter a valid VLAN ID (e.g. 10)'
+                            required: false
+                            type: INPUT_FIELD_TYPE_INTEGER
+                            integer_props:
+                                default_value: null
+                                range: null
+                                static_options: null
+                                dynamic_options: null
+                        c13e152a-e2ab-4daf-8d40-27895bf9e1b4:
+                            id: c13e152a-e2ab-4daf-8d40-27895bf9e1b4
+                            name: vlanDescription
+                            label: 'VLAN Description'
+                            description: 'Enter a VLAN Description (e.g. TestVLAN10)'
+                            required: false
+                            type: INPUT_FIELD_TYPE_STRING
+                            string_props:
+                                default_value: null
+                                static_options: null
+                                format: null
+                                length: null
+                                pattern: null
+                                dynamic_options: null
+                        092f90f4-d9ca-4557-9068-65ae069ec5d4:
+                            id: 092f90f4-d9ca-4557-9068-65ae069ec5d4
+                            name: value
+                            label: 'VLANs Group'
+                            description: 'Group of members for VLANs'
+                            required: false
+                            type: INPUT_FIELD_TYPE_GROUP
+                            group_props:
+                                members:
+                                    values:
+                                        - 4648d3d8-eba0-4179-a903-2e1510dce3f2
+                                        - c13e152a-e2ab-4daf-8d40-27895bf9e1b4
+                        fb8ccbb4-b8c9-49a3-851f-a208f987a841:
+                            id: fb8ccbb4-b8c9-49a3-851f-a208f987a841
+                            name: vlaNs
+                            label: VLANs
+                            description: 'Configure VLANs'
+                            required: false
+                            type: INPUT_FIELD_TYPE_COLLECTION
+                            collection_props:
+                                base_field_id: 092f90f4-d9ca-4557-9068-65ae069ec5d4
+                                key: ""
+                        da66e6f3-96fb-4358-abaf-2a9824d275c2:
+                            id: da66e6f3-96fb-4358-abaf-2a9824d275c2
+                            name: vrfName
+                            label: 'VRF Name'
+                            description: 'Enter a VRF Name (e.g. TenantA)'
+                            required: false
+                            type: INPUT_FIELD_TYPE_STRING
+                            string_props:
+                                default_value: null
+                                static_options: null
+                                format: null
+                                length: null
+                                pattern: null
+                                dynamic_options: null
+                        7fc9d45e-0f14-4f23-b063-875caf8b753c:
+                            id: 7fc9d45e-0f14-4f23-b063-875caf8b753c
+                            name: vrFsGroup
+                            label: 'VRFs Group'
+                            description: ""
+                            required: false
+                            type: INPUT_FIELD_TYPE_GROUP
+                            group_props:
+                                members:
+                                    values:
+                                        - da66e6f3-96fb-4358-abaf-2a9824d275c2
+                        8d74b865-0b40-4aa3-bddc-e610fce9cfbd:
+                            id: 8d74b865-0b40-4aa3-bddc-e610fce9cfbd
+                            name: vrFs
+                            label: VRFs
+                            description: ""
+                            required: false
+                            type: INPUT_FIELD_TYPE_COLLECTION
+                            collection_props:
+                                base_field_id: 7fc9d45e-0f14-4f23-b063-875caf8b753c
+                                key: ""
+                        799add59-a6fd-4d73-a745-b961cee03238:
+                            id: 799add59-a6fd-4d73-a745-b961cee03238
+                            name: vlanIdDevice
+                            label: 'VLAN ID'
+                            description: ""
+                            required: false
+                            type: INPUT_FIELD_TYPE_INTEGER
+                            integer_props:
+                                default_value: null
+                                range: null
+                                static_options: null
+                                dynamic_options:
+                                    values:
+                                        - '{"fieldId":"4648d3d8-eba0-4179-a903-2e1510dce3f2"}'
+                        33492791-25a5-45cc-894e-eab23dc42b45:
+                            id: 33492791-25a5-45cc-894e-eab23dc42b45
+                            name: ipAddress
+                            label: 'IP Address'
+                            description: 'Enter an IPv4 address (e.g. 192.168.10.150/24)'
+                            required: false
+                            type: INPUT_FIELD_TYPE_STRING
+                            string_props:
+                                default_value: null
+                                static_options: null
+                                format: null
+                                length: null
+                                pattern: null
+                                dynamic_options: null
+                        4e7cbaf7-22a7-4c6a-9f1e-844b6dbb89aa:
+                            id: 4e7cbaf7-22a7-4c6a-9f1e-844b6dbb89aa
+                            name: vrfNameDevice
+                            label: 'VRF Name'
+                            description: ""
+                            required: false
+                            type: INPUT_FIELD_TYPE_STRING
+                            string_props:
+                                default_value: null
+                                static_options: null
+                                format: null
+                                length: null
+                                pattern: null
+                                dynamic_options:
+                                    values:
+                                        - '{"fieldId":"da66e6f3-96fb-4358-abaf-2a9824d275c2"}'
+                        9a8ccb29-6aae-4094-97c3-a77269720683:
+                            id: 9a8ccb29-6aae-4094-97c3-a77269720683
+                            name: deviceDetails
+                            label: 'Device Details'
+                            description: ""
+                            required: false
+                            type: INPUT_FIELD_TYPE_GROUP
+                            group_props:
+                                members:
+                                    values:
+                                        - 799add59-a6fd-4d73-a745-b961cee03238
+                                        - 33492791-25a5-45cc-894e-eab23dc42b45
+                                        - 4e7cbaf7-22a7-4c6a-9f1e-844b6dbb89aa
+                        df9e9c45-fc49-40dc-8aec-c278bd1fc5d4:
+                            id: df9e9c45-fc49-40dc-8aec-c278bd1fc5d4
+                            name: devices
+                            label: VLANs
+                            description: ""
+                            required: false
+                            type: INPUT_FIELD_TYPE_COLLECTION
+                            collection_props:
+                                base_field_id: 9a8ccb29-6aae-4094-97c3-a77269720683
+                                key: ""
+                        3dac2c96-82b5-4a9e-8639-402bd77f0f30:
+                            id: 3dac2c96-82b5-4a9e-8639-402bd77f0f30
+                            name: deviceResolver
+                            label: Devices
+                            description: 'Assign VLANs to Devices'
+                            required: false
+                            type: INPUT_FIELD_TYPE_RESOLVER
+                            resolver_props:
+                                base_field_id: df9e9c45-fc49-40dc-8aec-c278bd1fc5d4
+                                display_mode: RESOLVER_FIELD_DISPLAY_MODE_SPARSE
+                                input_mode: RESOLVER_FIELD_INPUT_MODE_MULTI_DEVICE_TAG
+                                input_tag_label: null
+                                tag_filter_query: null
+                        root:
+                            id: root
+                            name: ""
+                            label: ""
+                            description: ""
+                            required: false
+                            type: INPUT_FIELD_TYPE_GROUP
+                            group_props:
+                                members:
+                                    values:
+                                        - fb8ccbb4-b8c9-49a3-851f-a208f987a841
+                                        - 8d74b865-0b40-4aa3-bddc-e610fce9cfbd
+                                        - 3dac2c96-82b5-4a9e-8639-402bd77f0f30
+                layout:
+                    value: '{"6a84c7ed-ef1b-4c44-9f12-b429562f1e22":{"key":"6a84c7ed-ef1b-4c44-9f12-b429562f1e22","type":"INPUT","order":["215aea00-151f-44bb-917b-be161a39fcf3","7e18bf95-500b-4479-9844-03557796c30b"]},"799add59-a6fd-4d73-a745-b961cee03238":{"key":"799add59-a6fd-4d73-a745-b961cee03238","type":"INPUT","dependency":{}},"9a8ccb29-6aae-4094-97c3-a77269720683":{"key":"9a8ccb29-6aae-4094-97c3-a77269720683","type":"INPUT","order":["799add59-a6fd-4d73-a745-b961cee03238","33492791-25a5-45cc-894e-eab23dc42b45","4e7cbaf7-22a7-4c6a-9f1e-844b6dbb89aa"]},"8d74b865-0b40-4aa3-bddc-e610fce9cfbd":{"key":"8d74b865-0b40-4aa3-bddc-e610fce9cfbd","type":"INPUT"},"3dac2c96-82b5-4a9e-8639-402bd77f0f30":{"key":"3dac2c96-82b5-4a9e-8639-402bd77f0f30","type":"INPUT","showDefaultRow":false}}'
